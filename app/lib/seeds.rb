@@ -3,7 +3,13 @@ class Seeds
     Generator.create!(
       title: 'Create user model',
       commands: [
-        'create_file("app/models/user.rb", "class User < ApplicationRecord; end")',
+        {
+          method: 'create_file',
+          args: [
+            'app/models/user.rb',
+            'class User < ApplicationRecord; end',
+          ]
+        }
       ],
     )
   end

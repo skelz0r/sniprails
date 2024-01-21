@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_21_190626) do
   create_table "generators", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
-    t.text "commands", default: [], array: true
+    t.jsonb "commands", default: []
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
