@@ -18,6 +18,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
 
+  gem "factory_bot_rails"
+
   gem "rubocop"
   gem "rubocop-factory_bot"
   gem "rubocop-minitest"
