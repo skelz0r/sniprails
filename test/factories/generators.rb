@@ -3,7 +3,7 @@ FactoryBot.define do
     title { 'My command' }
     commands do
       [
-        'echo "Hello world!"',
+        'create_file("app/models/user.rb", "class User < ApplicationRecord; end")',
       ]
     end
   end
