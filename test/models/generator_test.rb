@@ -1,7 +1,7 @@
-require "test_helper"
+require 'test_helper'
 
 class GeneratorTest < ActiveSupport::TestCase
   test 'has valid factories' do
-    assert build(:generator).valid?
+    assert_predicate build(:generator), :valid?
   end
 end

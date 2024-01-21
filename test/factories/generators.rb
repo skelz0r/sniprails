@@ -1,10 +1,9 @@
 FactoryBot.define do
   factory :generator do
     title { 'My command' }
-    commands do
-      [
-        'create_file("app/models/user.rb", "class User < ApplicationRecord; end")',
-      ]
+
+    after(:build) do |generator|
+      generator.commands << build(:command_step, generator:)
     end
   end
 end

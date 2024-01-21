@@ -10,16 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_21_190626) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_21_210148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "command_steps", force: :cascade do |t|
+    t.string "type", null: false
+    t.jsonb "properties", default: {}
+    t.integer "position", default: 1, null: false
+    t.bigint "generator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["generator_id"], name: "index_command_steps_on_generator_id"
+    t.index ["position", "generator_id"], name: "index_command_steps_on_position_and_generator_id", unique: true
+  end
 
   create_table "generators", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
-    t.jsonb "commands", default: []
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "command_steps", "generators"
 end

@@ -1,0 +1,10 @@
+---
+- title: 'Basic webhooks system'
+  # uid: 'basic-webhooks'
+  description: 'Generate webhooks system based on background jobs system, with retries, hub signature and default serializers'
+  commands:
+    - type: 'create_background_job_file'
+      properties:
+        file_name: 'deliver_webhook'
+        content: |+
+          <%= Rails.root.join('db/generators/deliver_webhook.rb.erb').read.gsub("\n", "\n          ") %>

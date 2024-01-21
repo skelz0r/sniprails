@@ -5,6 +5,7 @@ ruby "3.3.0"
 gem "bootsnap", require: false
 gem "importmap-rails"
 gem "jbuilder"
+gem "activerecord_json_validator"
 gem "propshaft"
 gem "puma", ">= 5.0"
 gem "rails", "~> 7.1.2"
@@ -16,7 +17,7 @@ gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ]
+  gem "byebug"
 
   gem "factory_bot_rails"
 

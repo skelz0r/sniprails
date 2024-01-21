@@ -1,0 +1,79 @@
+require 'faraday'
+require 'json'
+
+class DeliverWebhookWorker<% if !sidekiq? %> < ActiveJob::Base<% end %>
+  <% if sidekiq? %>include Sidekiq::Worker<% end %>
+
+  MAX_TRIES_COUNT = 20
+
+  def perform(url, payload, tries_count = 0)
+    request(url, payload)
+  rescue http_error => e
+    track_error(e)
+
+    handle_error(url, payload, tries_count)
+  end
+
+  private
+
+  def handle_error(url, payload, tries_count)
+    return unless retryable?(tries_count)
+
+    reschedule_job!(url, payload, tries_count)
+  end
+
+  def reschedule_job!(url, payload, tries_count)
+    self.class.perform_in(
+      extract_waiting_time(tries_count),
+      url,
+      payload,
+      tries_count + 1,
+    )
+  end
+
+  def extract_waiting_time(tries_count)
+    (tries_count**4) + 15 + (rand(30) * (tries_count + 1))
+  end
+
+  def track_error(exception)
+    # FEEDME
+  end
+
+  def retryable?(tries_count)
+    tries_count < MAX_TRIES_COUNT
+  end
+
+  def request(url, payload)
+    http_connection.post(url) do |req|
+      req.body = payload.to_json
+      add_headers(req)
+    end
+  end
+
+  def add_headers(request)
+    now = Time.zone.now
+
+    request.headers['Content-Type'] = 'application/json'
+    request.headers['X-Hub-Timestamp'] = now.to_i.to_s
+    request.headers['X-Hub-Signature'] = hub_signature(now.to_i)
+  end
+
+  def hub_signature(timestamp)
+    Digest::SHA256.base64digest("#{verify_token}#{timestamp}")
+  end
+
+  def verify_token
+    ENV['WEBHOOK_VERIFY_TOKEN']
+  end
+
+  def http_connection
+    @http_connection ||= Faraday.new do |conn|
+      conn.request :retry, max: 2
+      conn.response :raise_error
+    end
+  end
+
+  def http_error
+    Faraday::Error
+  end
+end
