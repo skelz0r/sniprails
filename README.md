@@ -1,4 +1,4 @@
-# SnipRails
+# Sniprails
 
 ## Dependencies
 
