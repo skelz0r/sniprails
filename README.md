@@ -3,7 +3,7 @@
 ## Dependencies
 
 * ruby 3.3.0
-* sqlite
+* postresql
 
 ## Development
 
