@@ -41,11 +41,11 @@ class Seeds
   end
 
   def generators_raw
-    @generators_raw ||= ERB.new(Rails.root.join('db/generators.yml.erb').read).result
+    @generators_raw ||= ERB.new(File.read(Rails.root.join('db', 'generators.yml.erb'))).result
   end
 
   def load_all_models!
-    Dir[Rails.root.join('app/models/**/*.rb')].each do |file|
+    Dir[Rails.root.join('app', 'models', '**', '*.rb')].each do |file|
       require file
     end
   end
