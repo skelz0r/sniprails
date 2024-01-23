@@ -5,6 +5,7 @@ ruby "3.3.0"
 gem "activerecord_json_validator"
 gem "bootsnap", require: false
 gem "importmap-rails"
+gem "friendly_id"
 gem "jbuilder"
 gem "propshaft"
 gem "puma", ">= 5.0"
