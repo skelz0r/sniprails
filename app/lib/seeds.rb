@@ -41,7 +41,11 @@ class Seeds
   end
 
   def generators_raw
-    @generators_raw ||= ERB.new(File.read(Rails.root.join('db', 'generators.yml.erb'))).result
+    @generators_raw ||= ERB.new(File.read(Rails.root.join('db', 'generators.yml.erb'))).result(binding)
+  end
+
+  def load_command_content(name, indent: 5)
+    Rails.root.join("db/generators/#{name}").read.gsub("\n", "\n#{'  '*indent}")
   end
 
   def load_all_models!

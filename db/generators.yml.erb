@@ -7,4 +7,4 @@
       properties:
         file_name: 'deliver_webhook'
         content: |+
-          <%= Rails.root.join('db/generators/deliver_webhook.rb.erb').read.gsub("\n", "\n          ") %>
+          <%= load_command_content('deliver_webhook.rb.erb') %>

@@ -1,7 +1,7 @@
 require 'faraday'
 require 'json'
 
-class DeliverWebhookWorker<% if !sidekiq? %> < ActiveJob::Base<% end %>
+class DeliverWebhook<% if !sidekiq? %>Job < ActiveJob::Base<% else %>Worker<% end %>
   <% if sidekiq? %>include Sidekiq::Worker<% end %>
 
   MAX_TRIES_COUNT = 20
