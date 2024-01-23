@@ -2,10 +2,10 @@ source "https://rubygems.org"
 
 ruby "3.3.0"
 
+gem "activerecord_json_validator"
 gem "bootsnap", require: false
 gem "importmap-rails"
 gem "jbuilder"
-gem "activerecord_json_validator"
 gem "propshaft"
 gem "puma", ">= 5.0"
 gem "rails", "~> 7.1.2"
