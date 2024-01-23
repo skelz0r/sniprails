@@ -2,7 +2,7 @@ class CommandStep::CreateBackgroundJobFile < CommandStep::CreateFile
   def arguments
     [
       "#{background_job_folder}/#{file_name}.rb",
-      content
+      content,
     ]
   end
 
@@ -11,7 +11,7 @@ class CommandStep::CreateBackgroundJobFile < CommandStep::CreateFile
   end
 
   def content
-    properties.fetch('content')
+    ERB.new(properties.fetch('content')).result(binding)
   end
 
   def background_job_folder
@@ -23,6 +23,6 @@ class CommandStep::CreateBackgroundJobFile < CommandStep::CreateFile
   end
 
   def sidekiq?
-    true
+    config.fetch('background_job', 'active_job') == 'sidekiq'
   end
 end

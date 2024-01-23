@@ -1,4 +1,10 @@
 class CommandStep < ApplicationRecord
+  attr_writer :config
+
+  def config
+    @config || {}
+  end
+
   validates :position,
     presence: true,
     uniqueness: { scope: :generator_id },
