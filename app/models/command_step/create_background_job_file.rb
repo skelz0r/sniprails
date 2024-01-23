@@ -25,4 +25,12 @@ class CommandStep::CreateBackgroundJobFile < CommandStep::CreateFile
   def sidekiq?
     config.fetch('background_job', 'active_job') == 'sidekiq'
   end
+
+  def content_class_definition
+    if sidekiq?
+      "class #{file_name.classify}Worker\n  include Sidekiq::Worker"
+    else
+      "class #{file_name.classify}Job < ApplicationJob"
+    end
+  end
 end

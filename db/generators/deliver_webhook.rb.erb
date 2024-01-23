@@ -1,9 +1,7 @@
 require 'faraday'
 require 'json'
 
-class DeliverWebhook<% if !sidekiq? %>Job < ActiveJob::Base<% else %>Worker<% end %>
-  <% if sidekiq? %>include Sidekiq::Worker<% end %>
-
+<%= content_class_definition %>
   MAX_TRIES_COUNT = 20
 
   def perform(url, payload, tries_count = 0)
